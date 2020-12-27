@@ -1,7 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Star from './icons/Star'
 
 const Tiles = (props) => {
+    if (props.day === null) return <div className="tile"></div>;
+    if (props.hasPost === false) return (
+        <div className="tile flex" style={{ justifyContent: "flex-end" }}>
+            <div className="tile-day">
+                <h1>{props.day}</h1>
+            </div>
+        </div>);
+
     return (
         <div className="tile flex-col">
             <div className="tile-day flex flex-ai-center" style={{ justifyContent: "space-between" }}>
@@ -17,8 +25,8 @@ const Tiles = (props) => {
                 </div>
             </div>
             <div className="tile-img">
-                <img draggable={false} src="https://ik.imagekit.io/bj96n986jb/dev/Screenshot_2020-12-05_at_12.00.43_AM_3XTnZB8Hr.png"
-                    style={{ width: "inherit", height: "80%", maxHeight: "12rem" }}
+                <img draggable={false} src={props.postDetails.Images[0].ImageUrl}
+                    style={{ width: "60%", height: "90%", maxHeight: "12rem" }}
                     alt="" />
             </div>
             <div className="tile-legends flex flex-ai-center" style={{ justifyContent: "space-around" }}>
