@@ -18,12 +18,14 @@
 }
 
 .grid-item {
+  display: flex;
+  justify-content: center;
   background-color: rgba(255, 255, 255, 0.8);
-  &:hover{
-      background-color:  rgba(240, 240, 240, 0.8);
+  &:hover {
+    background-color: rgba(240, 240, 240, 0.8);
   }
   border: 0.4px solid rgba(170, 170, 170, 0.8);
-  padding: 7%;
+  padding: 2%;
   font-size: 30px;
   text-align: center;
 }
@@ -32,26 +34,26 @@
   &-wrapper {
     padding: 0.4rem;
     padding-top: 0rem;
-    width: 50%;
+    width: 70%;
     position: relative;
     background-color: white;
-    overflow-y:scroll ;
-    overflow-x: hidden;
-    height: 22rem;
+    height: 32rem;
+    overflow: hidden;
     box-shadow: 0 2px 4px 0 rgba($color: #464646, $alpha: 0.3);
   }
-  &-days{
-    height: 80%;
-    &-b{
+  &-days {
+    height: 70%;
+
+    overflow-y: scroll;
+    &-b {
       background-color: whitesmoke;
     }
   }
   &-header {
-  
   }
   &-weeks {
     width: 100%;
-  
+
     padding: 2%;
     &-box {
       text-transform: uppercase;
@@ -60,8 +62,8 @@
     }
   }
 }
-.header-wrapper{
-  &-fake{
+.header-wrapper {
+  &-fake {
     height: 34%;
     width: 100%;
   }
@@ -69,4 +71,66 @@
   height: 15%;
   width: 49.5%;
   background-color: white;
+}
+
+.upanim {
+  transform: translateY(100%);
+  transition: all 0.6s;
+}
+.downanim {
+  transform: translateY(-100%);
+  transition: all 0.6s;
+}
+
+.tile {
+  height: 4rem;
+  width: 4rem;
+  font-size: 5px;
+  background-color: white;
+  &-day {
+    height: 20%;
+    padding-right: 5%;
+    padding-left: 5%;
+  }
+  &-legends {
+    height: 10%;
+    padding-top: 5%;
+    padding-bottom: 5%;
+  }
+  &-img {
+    height: 60%;
+    overflow: hidden;
+    width: 100%;
+  }
+}
+
+.mystar {
+  height: 11px;
+  width: 11px;
+  font-size: 12px;
+}
+.filled {
+  color: rgb(50, 180, 240);
+}
+.unfilled {
+  color: rgb(214, 214, 214);
+}
+
+.bubble {
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  text-align: center;
+  &-w {
+    background-color: #ebafaf;
+  }
+  &-dc {
+    background-color: #ffd7a3;
+  }
+  &-pr {
+    background-color: #afebd4;
+  }
+  &-c {
+    background-color: #e6afeb;
+  }
 }

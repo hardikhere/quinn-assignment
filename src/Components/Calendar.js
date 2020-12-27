@@ -1,5 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
+import debounce from "lodash.debounce"
 import "./style.scss";
+import { getTilesData } from './utils/endpoint';
+import Tiles from './Tiles';
 
 const getDaysInMonth = (year, month) => {
     return new Date(year, month + 1, 0).getDate()
@@ -19,7 +22,23 @@ const Calendar = () => {
     const [years, setYears] = useState(yearArr);
     const [CalPages, setCalPages] = useState([]);
     const [currentYear, setcurrentYear] = useState(new Date().getFullYear());
-    const [currentMonth, setcurrentMonth] = useState(yearArr[0])
+    const [currentMonth, setcurrentMonth] = useState(yearArr[new Date().getMonth()]);
+    const [currentPage, setcurrentPage] = useState(new Date().getMonth());
+    const [prevToken, setprevToken] = useState(null);
+    const [hasMore, sethasMore] = useState(true)
+
+    const getNextData = () => {
+        if (hasMore) {
+            getTilesData(prevToken, 5).then(res => {
+                const data = res.ResponseObjects[0];
+                if (data.ContinuationToken === null) sethasMore(false);
+                setprevToken(data.ContinuationToken);
+                console.log(data);
+            })
+        }
+    }
+
+
     const generateYearlyCalendar = (year) => {
         if (!year) return;
         var pages = [];
@@ -53,21 +72,29 @@ const Calendar = () => {
         setcurrentYear(year);
         setCalPages(generateYearlyCalendar(year));
         window.onload = () => {
+            // scroll to the current month
+            var currentMonthDoc = document.getElementById(`month-${currentMonth}`);
+            currentMonthDoc.scrollIntoView();
             yearArr.forEach(month => {
+                var doc = document.getElementById(`month-${month}`);
+                var caldays = document.getElementById("caldays");
                 var observer = new IntersectionObserver(function (entries) {
                     if (entries[0].isIntersecting === true) {
+                        doc.scrollIntoView();
                         setcurrentMonth(month);
+                        //doc.classList.add("upanim");
                         console.log("new month is ", month)
                     }
-                }, { threshold: [1] });
+                });
 
-                observer.observe(document.querySelector(`#month-${month}`));
+                observer.observe(doc);
             })
         }
     }, []);
 
     return (
         <div className="flex flex-jc-center flex-ai-center" style={{ height: "100vh" }}>
+
             <div className="cal-wrapper">
                 <div className="header-wrapper">
                     <div className="cal-header">
@@ -87,23 +114,25 @@ const Calendar = () => {
                     </div>
                 </div>
                 <div className="header-wrapper-fake"></div>
-                <div className="cal-days">
+                <div className="cal-days" id="caldays">
 
-                    {
-                        CalPages.map((page, pageIndex) => {
-                            return <div>
-                                <div className="flex" id={`month-${page.monthName}`}>{page.monthName}</div>
-                                <div className="grid-container">
+                    {CalPages.length > 0 && CalPages.map((page, pageIndex) => {
+                        return (
+                            <div style={{ paddingBottom: "1rem" }} key={`page${pageIndex}`}>
+                                <div className="flex" >
+                                    {page.monthName}
+                                </div>
+                                <div className="grid-container" id={`month-${page.monthName}`} >
                                     {
                                         page.tiles.map((tile, tileIndex) => {
                                             return <div className={`grid-item`}>
-                                                {tile.day}
+                                                <Tiles day={tile.day} />
                                             </div>
                                         })
                                     }
                                 </div>
-                            </div>
-                        })
+                            </div>)
+                    })
                     }
                 </div>
             </div>
