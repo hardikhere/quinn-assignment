@@ -6,7 +6,7 @@ const Tiles = (props) => {
     if (props.day === null) return <div className="tile"></div>;
     if (props.hasPost === false) return (
         <div className="tile flex" style={{ justifyContent: "flex-end" }}>
-            <div className="tile-day" style={{ fontSize: "16px" }}>
+            <div className={`tile-day ${props.isToday ? "today" : ""}`} style={{ fontSize: "16px" }}>
                 {props.day}
             </div>
         </div>
@@ -24,7 +24,7 @@ const Tiles = (props) => {
                 <div className="flex">
                     {getStars(props.postDetails.Rating)}
                 </div>
-                <div style={{ fontSize: "16px" }}>
+                <div style={{ fontSize: "16px" }} className={`${props.isToday ? "today" : ""}`}>
                     {props.day}
                 </div>
             </div>
@@ -33,7 +33,7 @@ const Tiles = (props) => {
                     style={{ width: "60%", height: "90%", maxHeight: "12rem" }}
                     alt="" />
             </div>
-            <div className="tile-legends flex flex-ai-center" style={{ justifyContent: "space-evenly",width:"66%" }}>
+            <div className="tile-legends flex flex-ai-center" style={{ justifyContent: "space-evenly", width: "66%" }}>
                 {
                     props.postDetails.TypeOfDay.map(type => {
                         return <div className={`bubble flex flex-ai-center flex-jc-center bubble-${legendNames[type]}`}>

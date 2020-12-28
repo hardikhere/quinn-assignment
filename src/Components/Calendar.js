@@ -79,6 +79,9 @@ const Calendar = () => {
     const generateYearlyCalendar = (year) => {
         if (!year) return;
         var pages = [];
+        var curYear = new Date().getFullYear();
+        var curMnth = new Date().getMonth();
+        var curDate = new Date().getDate();
         for (let i = 0; i <= 11; i++) {//for each month
             var numberOfDays = getDaysInMonth(year, i);
             var startDay = getStartDay(year, i);
@@ -87,13 +90,15 @@ const Calendar = () => {
             for (var start = 0; start < startDay; start++) {
                 tiles.push({
                     day: null,
-                    hasPost: false
+                    hasPost: false,
+                    isToday: false
                 })
             }
             for (let dayi = 0; dayi < numberOfDays; dayi++) {
                 tiles.push({
                     day: dayi + 1,
-                    hasPost: false
+                    hasPost: false,
+                    isToday: curDate === dayi && curMnth === i && year === curYear
                 })
             };
             pages.push({
@@ -157,10 +162,15 @@ const Calendar = () => {
 
     const [showModal, setshowModal] = useState(false);
     const toggleShowModal = () => setshowModal(!showModal);
-
+    const [ActiveTile, setActiveTile] = useState()
+    const handleTileClick = (post, haspost) => {
+        if (!haspost) return;
+        setActiveTile(post.CalendarDateTime);
+        toggleShowModal();
+    }
     return (
         <div className="flex flex-jc-center flex-ai-center" style={{ height: "100vh" }}>
-            {showModal && <CardsCarousel toggle={toggleShowModal} />}
+            {showModal && <CardsCarousel toggle={toggleShowModal} active={ActiveTile} />}
             <div className="cal-wrapper">
                 <div className="header-wrapper">
                     <div className="cal-header">
@@ -191,8 +201,10 @@ const Calendar = () => {
                                 <div className="grid-container" id={`month-${page.monthName}`} >
                                     {
                                         page.tiles.map((tile, tileIndex) => {
-                                            return <div className={`grid-item`} onClick={tile.hasPost && toggleShowModal}>
-                                                <Tiles day={tile.day} hasPost={tile.hasPost} postDetails={tile.postDetails} />
+                                            return <div className={`grid-item`} onClick={() => handleTileClick(tile.postDetails, tile.hasPost)}>
+                                                <Tiles day={tile.day} hasPost={tile.hasPost}
+                                                    isToday={tile.isToday}
+                                                    postDetails={tile.postDetails} />
                                             </div>
                                         })
                                     }
@@ -202,7 +214,7 @@ const Calendar = () => {
                     }
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 

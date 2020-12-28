@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Carousel } from 'react-bootstrap'
 import ExpandedTile from './ExpandedTile'
 import { useSelector } from "react-redux";
@@ -6,7 +6,13 @@ import { useSelector } from "react-redux";
 const CardsCarousel = (props) => {
     const Posts = useSelector(state => state.Posts);
     const [index, setIndex] = useState(0);
-
+    useEffect(() => {
+        Posts.forEach((post, postIndex) => {
+            if (post.CalendarDateTime === props.active) {
+                setIndex(postIndex)
+            }
+        });
+    }, [])
     const handleSelect = (selectedIndex, e) => {
         setIndex(selectedIndex);
     };

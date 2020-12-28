@@ -17,7 +17,7 @@ const ExpandedTile = (props) => {
     return (
         <div className="tile-bg xtile">
             <div className="xtile-img">
-                <img src={props.postDetails.Images[0].ImageUrl} alt="" />
+                <img src={props.postDetails.Images[0].ImageUrl} style={{height:"100%",backgroundSize:"auto",width:"100%"}} alt="" />
             </div>
             <div className="xtile-container">
                 <div className="flex" style={{ justifyContent: "space-between" }}>

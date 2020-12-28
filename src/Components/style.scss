@@ -42,7 +42,7 @@
     box-shadow: 0 2px 4px 0 rgba($color: #464646, $alpha: 0.3);
   }
   &-days {
-    height: 70%;
+    height: 73%;
 
     overflow-y: scroll;
     &-b {
@@ -64,7 +64,7 @@
 }
 .header-wrapper {
   &-fake {
-    height: 34%;
+    height: 24%;
     width: 100%;
   }
   position: fixed;
@@ -185,4 +185,16 @@
   color: white;
   top: 3%;
   right: 3%;
+}
+.today{
+  background-color: rgb(236, 69, 69);
+  color: white;
+  height: 25px;
+  width: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  padding: 2px;
+
 }
