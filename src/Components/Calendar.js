@@ -98,7 +98,7 @@ const Calendar = () => {
                 tiles.push({
                     day: dayi + 1,
                     hasPost: false,
-                    isToday: curDate === dayi && curMnth === i && year === curYear
+                    isToday: curDate === dayi + 1 && curMnth === i && year === curYear
                 })
             };
             pages.push({
